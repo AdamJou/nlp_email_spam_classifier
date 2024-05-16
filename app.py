@@ -12,7 +12,6 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 
 app = Flask(__name__)
 
-# Helper functions for text processing
 def download_nltk_packages():
     nltk.download('punkt', quiet=True)
     nltk.download('wordnet', quiet=True)
@@ -32,7 +31,6 @@ def preprocess_text(texts, lemmatizer, stop_words):
     filtered_texts = [' '.join(lemma) for lemma in lemmas]
     return filtered_texts
 
-# Function to train the model and return metrics
 def train_and_evaluate():
     download_nltk_packages()
     lemmatizer = WordNetLemmatizer()
@@ -42,8 +40,7 @@ def train_and_evaluate():
     
     vectorizer = CountVectorizer()
     features = vectorizer.fit_transform(data['processed'])
-    labels = data['CATEGORY']  # Assuming labels are numeric 0 (not spam) and 1 (spam)
-
+    labels = data['CATEGORY'] 
     X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size=0.2, random_state=42)
     
     classifier = MultinomialNB()
@@ -60,10 +57,9 @@ def train_and_evaluate():
 
     return classifier, vectorizer, metrics
 
-# Store the model and vectorizer in memory
+
 classifier, vectorizer, model_metrics = train_and_evaluate()
 
-# Function to classify a single email
 def classify_email(email_text):
     prepared_text = preprocess_text([email_text], WordNetLemmatizer(), set(stopwords.words('english')))
     email_features = vectorizer.transform(prepared_text)
