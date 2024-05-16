@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Model Metrics</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Model Metrics</h1>
+      <table class="metrics-table">
+        <tr>
+          <th>Metric</th>
+          <th>Value</th>
+        </tr>
+        <tr>
+          <td>Accuracy</td>
+          <td>{{ metrics.accuracy }}</td>
+        </tr>
+        <tr>
+          <td>Precision</td>
+          <td>{{ metrics.precision }}</td>
+        </tr>
+        <tr>
+          <td>Recall</td>
+          <td>{{ metrics.recall }}</td>
+        </tr>
+        <tr>
+          <td>F1 Score</td>
+          <td>{{ metrics.f1_score }}</td>
+        </tr>
+        <tr>
+          <td>Confusion Matrix</td>
+          <td>
+            <table class="confusion-matrix">
+              {% for row in metrics.confusion_matrix %}
+              <tr>
+                {% for cell in row %}
+                <td>{{ cell }}</td>
+                {% endfor %}
+              </tr>
+              {% endfor %}
+            </table>
+          </td>
+        </tr>
+      </table>
+      <a class="btn btn-primary" href="/">Go back to classify</a>
+    </div>
+  </body>
+</html>

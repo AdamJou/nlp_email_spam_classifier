@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Classify Email</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Classify Email</h1>
+      <div class="card">
+        <form id="classifyForm" method="post">
+          <div class="form-group">
+            <label for="emailText">Email Text</label>
+            <textarea
+              class="form-control"
+              id="emailText"
+              name="email_text"
+              rows="3"
+              placeholder="Enter your email here..."
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" id="classifyButton">
+            Classify
+          </button>
+          {% if prediction %}
+          <span
+            class="prediction-result {{ 'not-spam' if prediction == 'Not Spam' else 'spam' }}"
+          >
+            <i class="material-icons"
+              >{{ 'check' if prediction == 'Not Spam' else 'close' }}</i
+            >
+            {{ prediction }}
+          </span>
+          {% endif %}
+        </form>
+      </div>
+      <div class="card result-card">
+        <strong>Classified Text:</strong>
+        <span class="expandable" id="expandableSection">
+          <i class="material-icons expand-icon">keyboard_arrow_down</i>
+        </span>
+        <div class="expand-content" id="expandContent">
+          <p>{{ email_text }}</p>
+        </div>
+      </div>
+      <a href="/metrics" class="btn btn-info">See metrics</a>
+    </div>
+    <script src="{{ url_for('static', filename='expandable.js') }}"></script>
+  </body>
+</html>
